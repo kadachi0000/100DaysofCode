@@ -98,11 +98,11 @@ def check_results(hand, dealers_hand):
     print(f"\nYour final hand is {hand} for a total of {total}.\nThe dealer's final hand is {dealers_hand} for a "
           f"total of {dealer_total}.")
     if total > dealer_total:
-        print("You win this round. I'll be back again.")
+        print("\nYou win this round. I'll be back again.")
     elif dealer_total > total:
-        print("Thanks for the soul, sucker. Better luck next time!")
+        print("\nThanks for the soul, sucker. Better luck next time!")
     if total == dealer_total:
-        print("Guess you kept to keep your soul this time. Whaddya say to another round?")
+        print("\nThat's a draw. Guess you get to keep your soul this time. Whaddya say to another round?")
 
 
 def main():
@@ -129,7 +129,7 @@ def main():
             want_card = input("Would you like another card? Type 'y' or 'n': ")
     dealers_hand = dealers_draw(dealers_hand, cards)
     check_results(hand, dealers_hand)
-    again = input("Care to try your luck again?")
+    again = input("\nCare to try your luck again?")
     if again.lower() == "y":
         clear()
         main()
