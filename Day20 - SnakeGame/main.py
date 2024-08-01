@@ -1,5 +1,9 @@
-from turtle import Screen, Turtle
+from turtle import Screen
+from snake import Snake
+from food import Food
+from scoreboard import Scoreboard
 import time
+
 
 screen = Screen()
 screen.setup(width=600, height=600)
@@ -7,31 +11,36 @@ screen.bgcolor("black")
 screen.title("Snake Game")
 screen.tracer(0)
 
-snake_pieces = ["head", "body", "tail"]
+snake = Snake()
+food = Food()
+scoreboard = Scoreboard()
 
-snake = []
-starting_position = [(0, 0), (-20, 0), (-40, 0)]
-i = 0
-for piece in snake_pieces:
-    piece = Turtle(shape="square")
-    piece.color("white")
-    piece.penup()
-    piece.goto(starting_position[i])
-    i += 1
-    snake.append(piece)
+screen.listen()
+screen.onkey(snake.up, "Up")
+screen.onkey(snake.down, "Down")
+screen.onkey(snake.left, "Left")
+screen.onkey(snake.right, "Right")
+
 
 game_running = True
 while game_running:
     screen.update()
-    time.sleep(.5)
+    time.sleep(0.1)
+    snake.move()
 
-    for piece in range(len(snake) - 1, 0, -1):
-        new_x = snake[piece-1].xcor()
-        new_y = snake[piece-1].ycor()
-        snake[piece].goto(new_x, new_y)
-    snake[0].forward(20)
+    if snake.head.distance(food) < 15:
+        food.refresh()
+        snake.extend()
+        scoreboard.increase_score()
 
-snake = Snake()
-snake.move()
+    if snake.head.xcor() > 290 or snake.head.xcor() < -290 or snake.head.ycor() > 290 or snake.head.ycor() < -290:
+        scoreboard.game_over()
+        game_running = False
+
+    for segment in snake.snake[1:]:
+        if snake.head.distance(segment) < 10:
+            game_is_on = False
+            scoreboard.game_over()
+
 
 screen.exitonclick()
