@@ -25,8 +25,17 @@ class Snake:
         segment.penup()
         segment.goto(position)
         self.snake.append(segment)
+
+    def reset(self):
+        for segments in self.snake:
+            segments.goto(1000, 1000)
+        self.snake.clear()
+        self.create_snake()
+        self.head = self.snake[0]
+
     def extend(self):
         self.add_segment(self.snake[-1].position())
+
     def move(self):
         for piece in range(len(self.snake) - 1, 0, -1):
             new_x = self.snake[piece - 1].xcor()
